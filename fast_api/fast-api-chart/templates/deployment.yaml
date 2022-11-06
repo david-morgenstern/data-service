@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fast-api-deployment
+  labels:
+    app: fast-api
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: fast-api
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      name: fast-api
+      labels:
+        app.kubernetes.io/name: fast-api
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      containers:
+      - image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        name: {{ .Chart.Name }}
+        ports:
+          - containerPort: 8080
