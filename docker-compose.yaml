@@ -4,8 +4,29 @@ services:
   fast_api_service:
     container_name: fast-api
     build: ./fast_api
-    image: fast_api:latest
+    image: daveyo89/fast_api:latest
+    restart: always
     volumes:
       - ./fast_api/:/app/
     ports:
       - "8080:8080"
+    labels:
+      kompose.service.type: NodePort
+    depends_on:
+      - rabbitmq
+  scraper_service:
+    container_name: scraper
+    build: ./scraper
+    image: daveyo89/scraper:latest
+    restart: always
+    volumes:
+      - ./scraper/:/app/
+    tty: true
+    depends_on:
+      - rabbitmq
+  rabbitmq:
+    image: rabbitmq:3.11-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"

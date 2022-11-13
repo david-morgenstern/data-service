@@ -1,7 +1,11 @@
 minikube start
 
-cd fast_api
-helm install fast-api ./fast-api-chart/fast-api-chart-0.1.0.tgz 
+## For kubernetes
+comment volumes for services in docker-compose for pods will be empty for some reason otherwise.
 
-kubectl expose pod {podname} --type=NodePort 8080
+kompose convert
 
+kubectl apply -f --recursive
+
+## For helm 
+kompose convert -c  <!-- havent tested yet -->

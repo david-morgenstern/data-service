@@ -6,6 +6,4 @@ RUN pip install -r requirements.txt
 
 ADD . /app
 
-EXPOSE 8080
-
-CMD uvicorn --app-dir /app app:app --workers 2 --port 8080 --host 0.0.0.0
+ENTRYPOINT ["python",  "/app/scrape.py"]
